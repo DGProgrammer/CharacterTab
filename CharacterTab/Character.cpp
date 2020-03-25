@@ -4,8 +4,8 @@
 
 #define MAX_SIZE_X 11
 #define MAX_SIZE_Y 9
-
-
+#define SUM_X (x* MAX_SIZE_X)
+#define SUM_Y (y* MAX_SIZE_Y)
 using namespace rlutil;
 
 Character_t::Character_t(int FUE, int DES, int CON, int INT, int SAB, int CAR)
@@ -18,27 +18,31 @@ Character_t::Character_t(int FUE, int DES, int CON, int INT, int SAB, int CAR)
 	m_CAR = CAR;
 }
 
-void printTab()
+void printTab(int x, int y)
 {
-	for (int i = 1; i <= MAX_SIZE_X; i++)
+	int line = 1+ SUM_Y; //Posicion y
+	int column = 1 + SUM_X; //Posicion x
+	//For bidimensional para la tabla
+	for (int c= column; c <= MAX_SIZE_X + SUM_X; c++)
 	{
-		for (int j = 1; j <= MAX_SIZE_Y; j++)
+		for (int l= line; l <= MAX_SIZE_Y + SUM_Y; l++)
 		{
-			locate(i, j);
+			locate(c, l);
 			setColor(GREEN);
-			if (i == 1 || i == MAX_SIZE_X || j == 1 || j == MAX_SIZE_Y)
+			if (l == 1 + SUM_Y || l == MAX_SIZE_Y + SUM_Y || c == 1 + SUM_X || c == MAX_SIZE_X + SUM_X)
 				printf("*");
 		}
 	}
 }
 
-void Character_t::printInfo()
+void Character_t::printInfo(int x, int y)
 {
-
-	int line = 2;
+	int l = 2; //Variable usada por el swithc para imprimir cada valor
+	int line = 2 + SUM_Y; //Calculamos la posicion de la pantalla en y
+	int column = 2 + SUM_X; //Calculamos la posicion de la pantalla en x
 	do {
-		locate(2, line);
-		switch (line)
+		locate(column, line); //Situamos donde vamos a escribir
+		switch (l) //IMPRIMIMOS DATOS
 		{
 		default:
 		case 2:
@@ -83,8 +87,9 @@ void Character_t::printInfo()
 			break;
 		}
 		line++;
-	} while (line < MAX_SIZE_Y);
+		l++;
+	} while (l < MAX_SIZE_Y);
 
-	printTab();
+	printTab(x, y); //Dibujamos la tabla pasandole la x e y
 }
 
